@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 WAY = minilibx-linux
 MINILIBX = -L./minilibx-linux -lmlx_Linux -lXext -lX11 -lm
 SRC = src/main.c\
+	src/player.c\
 
 OBJ = ${SRC:.c=.o}
 
