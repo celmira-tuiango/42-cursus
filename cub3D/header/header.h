@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   header.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ctuiango <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/02 14:39:55 by ctuiango          #+#    #+#             */
+/*   Updated: 2025/02/02 14:39:58 by ctuiango         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HEADER_H
 # define HEADER_H
 
@@ -23,36 +35,55 @@
 
 typedef struct s_player
 {
-    float   x;
-    float   y;
-    float   angle;
+	float	x;
+	float	y;
+	float	angle;
+	float	cos_angle;
+	float	sin_angle;
+	float	ray_x;
+	float	ray_y;
+	bool	key_up;
+	bool	key_down;
+	bool	key_left;
+	bool	key_right;
+	bool	left_rotate;
+	bool	right_rotate;
+}	t_player;
 
-    bool    key_up;
-    bool    key_down;
-    bool    key_left;
-    bool    key_right;
-
-    bool    left_rotate;
-    bool    right_rotate;
-} t_player;
-
-typedef struct  s_vars
+typedef struct s_vars
 {
-    void    *mlx;
-    void    *win;
-    void    *img;
-    char    *data;
-    char    **map;
-    int    bpp;
-    int    size_line;
-    int endian;
-    t_player    player;
-} t_vars;
+	void				*mlx;
+	void				*win;
+	void				*img;
+	char				*data;
+	char				**map;
+	t_player			player;
+	float				dist;
+	float				height;
+	float				x1;
+	float				x2;
+	int					x;
+	int					y;
+	int					bpp;
+	int					size_line;
+	int					endian;
+	int					start_y;
+	int					end;
+}	t_vars;
 
-
-void    init_player(t_player *player);
-void    move_player(t_player *player);
-int key_press(int keycode, t_player *player);
-int key_release(int keycode, t_player *player);
+void	init_player(t_player *player);
+void	move_player(t_player *player);
+void	init_vars(t_vars *vars);
+void	draw_map(t_vars *vars);
+void	draw_square(int size, int color, t_vars *vars);
+void	clear_image(t_vars *vars);
+void	draw_square_aux(int size, int color, t_vars *vars);
+void	draw_loop_one(t_vars *vars);
+void	put_pixel(int x, int y, int color, t_vars *vars);
+int		key_press(int keycode, t_player *player);
+int		key_release(int keycode, t_player *player);
+int		draw_loop(t_vars *vars);
+bool	touch(float px, float py, t_vars *vars);
+float	fixed_dist(float y1, float y2, t_vars *vars);
 
 #endif
