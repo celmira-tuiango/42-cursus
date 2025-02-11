@@ -23,6 +23,7 @@ SRC = src/main.c\
 	src/raycasting.c\
 	src/draw.c\
 	src/draw_aux.c\
+	src/close.c\
 
 OBJ = ${SRC:.c=.o}
 

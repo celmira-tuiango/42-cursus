@@ -42,6 +42,8 @@ typedef struct s_player
 	float	sin_angle;
 	float	ray_x;
 	float	ray_y;
+	float	new_x;
+	float	new_y;
 	bool	key_up;
 	bool	key_down;
 	bool	key_left;
@@ -55,6 +57,8 @@ typedef struct s_vars
 	void				*mlx;
 	void				*win;
 	void				*img;
+	void		*textures[4];
+	char		*tex_data[4];
 	char				*data;
 	char				**map;
 	t_player			player;
@@ -69,19 +73,26 @@ typedef struct s_vars
 	int					endian;
 	int					start_y;
 	int					end;
+	int			tex_width;
+	int			tex_height;
 }	t_vars;
 
 void	init_player(t_player *player);
-void	move_player(t_player *player);
+void	move_player(t_player *player, t_vars *vars);
 void	init_vars(t_vars *vars);
+void	destroy_image(t_vars *vars);
 void	draw_map(t_vars *vars);
+void	set_images(t_vars *vars);
 void	draw_square(int size, int color, t_vars *vars);
 void	clear_image(t_vars *vars);
 void	draw_square_aux(int size, int color, t_vars *vars);
 void	draw_loop_one(t_vars *vars);
 void	put_pixel(int x, int y, int color, t_vars *vars);
+void	draw_background(t_vars *vars, int sky_color, int floor_color);
+int	close_exit(void *noth);
 int		key_press(int keycode, t_player *player);
 int		key_release(int keycode, t_player *player);
+int	close_esc(int keycode, t_vars *vars);
 int		draw_loop(t_vars *vars);
 bool	touch(float px, float py, t_vars *vars);
 float	fixed_dist(float y1, float y2, t_vars *vars);

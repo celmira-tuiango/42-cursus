@@ -105,7 +105,7 @@ int	draw_loop(t_vars *vars)
 	int			i;
 
 	player = &vars->player;
-	move_player(player);
+	move_player(player, vars);
 	clear_image(vars);
 	if (DEBUG)
 		draw_loop_one(vars);
