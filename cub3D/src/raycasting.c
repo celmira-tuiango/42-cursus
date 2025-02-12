@@ -41,4 +41,4 @@ bool	touch(float px, float py, t_vars *vars)
 	if (vars->map[y][x] == '1')
 		return (true);
 	return (false);
-}
+} 

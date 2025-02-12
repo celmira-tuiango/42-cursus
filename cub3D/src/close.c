@@ -12,10 +12,9 @@
 
 #include "../header/header.h"
 
-int	close_esc(int keycode, t_vars *vars)
+int	close_esc(t_vars *vars)
 {
-	if (keycode == 65307)
-		close_exit(vars);
+	close_exit(vars);
 	return (0);
 }
 

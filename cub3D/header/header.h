@@ -33,6 +33,8 @@
 # include <stdbool.h>
 # include <math.h>
 
+typedef struct s_vars t_vars;
+
 typedef struct s_player
 {
 	float	x;
@@ -50,6 +52,8 @@ typedef struct s_player
 	bool	key_right;
 	bool	left_rotate;
 	bool	right_rotate;
+
+	t_vars	*vars;
 }	t_player;
 
 typedef struct s_vars
@@ -90,9 +94,9 @@ void	draw_loop_one(t_vars *vars);
 void	put_pixel(int x, int y, int color, t_vars *vars);
 void	draw_background(t_vars *vars, int sky_color, int floor_color);
 int	close_exit(void *noth);
-int		key_press(int keycode, t_player *player);
+int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_player *player);
-int	close_esc(int keycode, t_vars *vars);
+int	close_esc(t_vars *vars);
 int		draw_loop(t_vars *vars);
 bool	touch(float px, float py, t_vars *vars);
 float	fixed_dist(float y1, float y2, t_vars *vars);

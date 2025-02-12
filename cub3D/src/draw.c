@@ -70,6 +70,8 @@ void	draw_map(t_vars *vars)
 
 static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 {
+	int color;
+
 	player->cos_angle = cos(start_x);
 	player->sin_angle = sin(start_x);
 	player->ray_x = player->x;
@@ -81,6 +83,10 @@ static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 		player->ray_x += player->cos_angle;
 		player->ray_y += player->sin_angle;
 	}
+	if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
+		color = (player->ray_y > player->y) ? 0x00FFFF : 0x9370DB;
+	else
+		color = (player->ray_x < player->x) ? 0xD3D3D3 : 0xF5DEB3;
 	if (!DEBUG)
 	{
 		vars->x1 = player->x;
@@ -91,7 +97,7 @@ static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 		vars->end = vars->start_y + vars->height;
 		while (vars->start_y < vars->end)
 		{
-			put_pixel(i, vars->start_y, 255, vars);
+			put_pixel(i, vars->start_y, color, vars);
 			vars->start_y++;
 		}
 	}
@@ -107,6 +113,7 @@ int	draw_loop(t_vars *vars)
 	player = &vars->player;
 	move_player(player, vars);
 	clear_image(vars);
+	draw_background(vars, 0x87CEEB,  0x8B4513);
 	if (DEBUG)
 		draw_loop_one(vars);
 	fraction = PI / 3 / WIDTH;

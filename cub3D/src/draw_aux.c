@@ -58,3 +58,31 @@ void	draw_loop_one(t_vars *vars)
 	draw_square(10, 0x00FF00, vars);
 	draw_map(vars);
 }
+
+void	draw_background(t_vars *vars, int sky_color, int floor_color)
+{
+	int	y;
+	int	x;
+	
+	y = 0;
+	while (y < HEIGTH / 2)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			put_pixel(x, y, sky_color, vars);
+			x++;
+		}
+		y++;
+	}
+	while (y < HEIGTH)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			put_pixel(x, y, floor_color, vars);
+			x++;
+		}
+		y++;
+	}
+}

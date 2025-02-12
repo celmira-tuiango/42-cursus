@@ -12,20 +12,22 @@
 
 #include "../header/header.h"
 
-int	key_press(int keycode, t_player *player)
+int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == W)
-		player->key_up = true;
+		vars->player.key_up = true;
 	if (keycode == S)
-		player->key_down = true;
+		vars->player.key_down = true;
 	if (keycode == A)
-		player->key_left = true;
+		vars->player.key_left = true;
 	if (keycode == D)
-		player->key_right = true;
+		vars->player.key_right = true;
 	if (keycode == LEFT)
-		player->left_rotate = true;
+		vars->player.left_rotate = true;
 	if (keycode == RIGHT)
-		player->right_rotate = true;
+		vars->player.right_rotate = true;
+	if (keycode == 65307)
+		close_esc(vars);
 	return (0);
 }
 
