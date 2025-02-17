@@ -53,5 +53,6 @@ void	init_vars(t_vars *vars)
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
 	vars->data = mlx_get_data_addr(vars->img, &vars->bpp,
 			&vars->size_line, &vars->endian);
+	load_textures(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 }

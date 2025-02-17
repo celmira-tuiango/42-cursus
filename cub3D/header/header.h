@@ -77,6 +77,11 @@ typedef struct s_vars
 	int					endian;
 	int					start_y;
 	int					end;
+	int					tex_y;
+	int					pix_color;
+	int					tex_bpp[4];
+	int					tex_sl[4];
+	int    				tex_end[4];
 	int			tex_width;
 	int			tex_height;
 }	t_vars;
@@ -100,5 +105,10 @@ int	close_esc(t_vars *vars);
 int		draw_loop(t_vars *vars);
 bool	touch(float px, float py, t_vars *vars);
 float	fixed_dist(float y1, float y2, t_vars *vars);
+
+
+
+void	load_textures(t_vars *vars);
+void	render_texture_column(t_vars *vars, int texture_index, int column, int start_y, int end, int tex_x);
 
 #endif

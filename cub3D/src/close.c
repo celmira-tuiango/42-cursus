@@ -21,9 +21,14 @@ int	close_esc(t_vars *vars)
 int	close_exit(void *noth)
 {
 	t_vars	*vars;
+	int	i;
 	
+	i = 0;
 	vars = (t_vars *)noth;
-	//free_split(vars->map);
+	free(vars->map);
+	mlx_destroy_image(vars->mlx, vars->img);
+	while (i < 4)
+		mlx_destroy_image(vars->mlx, vars->textures[i++]);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);

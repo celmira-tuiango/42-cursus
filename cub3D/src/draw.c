@@ -70,12 +70,14 @@ void	draw_map(t_vars *vars)
 
 static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 {
-	int color;
+	int	texture_index;
+	int	tex_x;
 
 	player->cos_angle = cos(start_x);
 	player->sin_angle = sin(start_x);
 	player->ray_x = player->x;
 	player->ray_y = player->y;
+	
 	while (!touch(player->ray_x, player->ray_y, vars))
 	{
 		if (DEBUG)
@@ -83,25 +85,27 @@ static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 		player->ray_x += player->cos_angle;
 		player->ray_y += player->sin_angle;
 	}
-	if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
-		color = (player->ray_y > player->y) ? 0x00FFFF : 0x9370DB;
-	else
-		color = (player->ray_x < player->x) ? 0xD3D3D3 : 0xF5DEB3;
 	if (!DEBUG)
 	{
+		if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
+			texture_index = (player->ray_y > player->y) ? 0 : 1;
+		else
+			texture_index = (player->ray_x < player->x) ? 2 : 3;
+		
 		vars->x1 = player->x;
 		vars->x2 = player->ray_x;
 		vars->dist = fixed_dist(player->y, player->ray_y, vars);
 		vars->height = (BLOCK / vars->dist) * (WIDTH / 2);
 		vars->start_y = (HEIGTH - vars->height) / 2;
 		vars->end = vars->start_y + vars->height;
-		while (vars->start_y < vars->end)
-		{
-			put_pixel(i, vars->start_y, color, vars);
-			vars->start_y++;
-		}
+		if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
+			tex_x = (int)player->ray_x % vars->tex_width;
+		else
+			tex_x = (int)player->ray_y % vars->tex_width;
+		render_texture_column(vars, texture_index, i, vars->start_y, vars->end, tex_x);
 	}
 }
+
 
 int	draw_loop(t_vars *vars)
 {
