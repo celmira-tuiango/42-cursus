@@ -24,60 +24,12 @@ void	put_pixel(int x, int y, int color, t_vars *vars)
 	vars->data[index + 2] = (color >> 16) & 0xFF;
 }
 
-void	draw_square(int size, int color, t_vars *vars)
+static void	aux_draw_line_one(t_vars *vars, t_player *player, float start_x)
 {
-	int	i;
-
-	i = 0;
-	draw_square_aux(size, color, vars);
-	while (i < size)
-	{
-		put_pixel(vars->x + size, vars->y + i, color, vars);
-		i++;
-	}
-	i = 0;
-	while (i < size)
-	{
-		put_pixel(vars->x + i, vars->y + size, color, vars);
-		i++;
-	}
-}
-
-void	draw_map(t_vars *vars)
-{
-	int		color;
-	int		x;
-	int		y;
-	char	**map;
-
-	y = 0;
-	color = 0x0000FF;
-	map = vars->map;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			vars->x = x * BLOCK;
-			vars->y = y * BLOCK;
-			if (map[y][x] == '1')
-				draw_square(BLOCK, color, vars);
-			x++;
-		}
-		y++;
-	}
-}
-
-static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
-{
-	int	texture_index;
-	int	tex_x;
-
 	player->cos_angle = cos(start_x);
 	player->sin_angle = sin(start_x);
 	player->ray_x = player->x;
 	player->ray_y = player->y;
-	
 	while (!touch(player->ray_x, player->ray_y, vars))
 	{
 		if (DEBUG)
@@ -85,27 +37,48 @@ static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
 		player->ray_x += player->cos_angle;
 		player->ray_y += player->sin_angle;
 	}
+}
+
+static void	aux_draw_line_two(t_vars *vars, t_player *player)
+{
+	vars->x1 = player->x;
+	vars->x2 = player->ray_x;
+	vars->dist = fixed_dist(player->y, player->ray_y, vars);
+	vars->height = (BLOCK / vars->dist) * (WIDTH / 2);
+	vars->start_y = (HEIGTH - vars->height) / 2;
+	vars->end = vars->start_y + vars->height;
+	if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
+		vars->tex_x = (int)player->ray_x % vars->tex_width;
+	else
+		vars->tex_x = (int)player->ray_y % vars->tex_width;
+}
+
+static void	draw_line(t_player *player, t_vars *vars, float start_x, int i)
+{
+	int	texture_index;
+
+	aux_draw_line_one(vars, player, start_x);
 	if (!DEBUG)
 	{
 		if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
-			texture_index = (player->ray_y > player->y) ? 0 : 1;
+		{
+			if (player->ray_y > player->y)
+				texture_index = 0;
+			else
+				texture_index = 1;
+		}	
 		else
-			texture_index = (player->ray_x < player->x) ? 2 : 3;
-		
-		vars->x1 = player->x;
-		vars->x2 = player->ray_x;
-		vars->dist = fixed_dist(player->y, player->ray_y, vars);
-		vars->height = (BLOCK / vars->dist) * (WIDTH / 2);
-		vars->start_y = (HEIGTH - vars->height) / 2;
-		vars->end = vars->start_y + vars->height;
-		if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
-			tex_x = (int)player->ray_x % vars->tex_width;
-		else
-			tex_x = (int)player->ray_y % vars->tex_width;
-		render_texture_column(vars, texture_index, i, vars->start_y, vars->end, tex_x);
+		{
+			if (player->ray_x < player->x)
+				texture_index = 2;
+			else
+				texture_index = 3;
+		}
+		aux_draw_line_two(vars, player);
+		render_texture_column(vars, texture_index, i,
+			vars->start_y);
 	}
 }
-
 
 int	draw_loop(t_vars *vars)
 {
@@ -117,7 +90,7 @@ int	draw_loop(t_vars *vars)
 	player = &vars->player;
 	move_player(player, vars);
 	clear_image(vars);
-	draw_background(vars, 0x87CEEB,  0x8B4513);
+	draw_background(vars, 0x87CEEB, 0x8B4513);
 	if (DEBUG)
 		draw_loop_one(vars);
 	fraction = PI / 3 / WIDTH;

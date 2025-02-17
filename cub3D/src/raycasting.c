@@ -41,4 +41,48 @@ bool	touch(float px, float py, t_vars *vars)
 	if (vars->map[y][x] == '1')
 		return (true);
 	return (false);
-} 
+}
+
+void	draw_square(int size, int color, t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	draw_square_aux(size, color, vars);
+	while (i < size)
+	{
+		put_pixel(vars->x + size, vars->y + i, color, vars);
+		i++;
+	}
+	i = 0;
+	while (i < size)
+	{
+		put_pixel(vars->x + i, vars->y + size, color, vars);
+		i++;
+	}
+}
+
+void	draw_map(t_vars *vars)
+{
+	int		color;
+	int		x;
+	int		y;
+	char	**map;
+
+	y = 0;
+	color = 0x0000FF;
+	map = vars->map;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			vars->x = x * BLOCK;
+			vars->y = y * BLOCK;
+			if (map[y][x] == '1')
+				draw_square(BLOCK, color, vars);
+			x++;
+		}
+		y++;
+	}
+}

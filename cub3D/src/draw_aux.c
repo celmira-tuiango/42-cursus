@@ -63,7 +63,7 @@ void	draw_background(t_vars *vars, int sky_color, int floor_color)
 {
 	int	y;
 	int	x;
-	
+
 	y = 0;
 	while (y < HEIGTH / 2)
 	{

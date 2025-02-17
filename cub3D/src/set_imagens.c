@@ -38,7 +38,8 @@ void	load_textures(t_vars *vars)
 	}
 }
 
-void	render_texture_column(t_vars *vars, int texture_index, int column, int start_y, int end, int tex_x)
+void	render_texture_column(t_vars *vars, int texture_index, \
+	int column, int start_y)
 {
 	int		y;
 	int		bpp;
@@ -49,13 +50,14 @@ void	render_texture_column(t_vars *vars, int texture_index, int column, int star
 	sl = vars->tex_sl[texture_index];
 	data = vars->tex_data[texture_index];
 	y = start_y;
-	while (y < end)
+	while (y < vars->end)
 	{
-		vars->tex_y = ((y - start_y) * vars->tex_height) / (end - start_y);
+		vars->tex_y = ((y - start_y) * vars->tex_height)
+			/ (vars->end - start_y);
 		if (vars->tex_y >= vars->tex_height)
 			vars->tex_y = vars->tex_height - 1;
 		vars->pix_color = *(int *)(data + (vars->tex_y
-					* sl + tex_x * (bpp / 8)));
+					* sl + vars->tex_x * (bpp / 8)));
 		vars->pix_color = mlx_get_color_value(vars->mlx, vars->pix_color);
 		put_pixel(column, y, vars->pix_color, vars);
 		y++;

@@ -24,6 +24,7 @@
 # define D 100
 # define LEFT 65361
 # define RIGHT 65363
+# define SPEED 3
 
 # define PI 3.14159265359
 
@@ -33,7 +34,7 @@
 # include <stdbool.h>
 # include <math.h>
 
-typedef struct s_vars t_vars;
+typedef struct s_vars	t_vars;
 
 typedef struct s_player
 {
@@ -42,6 +43,8 @@ typedef struct s_player
 	float	angle;
 	float	cos_angle;
 	float	sin_angle;
+	float	cos_ang;
+	float	sin_ang;
 	float	ray_x;
 	float	ray_y;
 	float	new_x;
@@ -61,8 +64,8 @@ typedef struct s_vars
 	void				*mlx;
 	void				*win;
 	void				*img;
-	void		*textures[4];
-	char		*tex_data[4];
+	void				*textures[4];
+	char				*tex_data[4];
 	char				*data;
 	char				**map;
 	t_player			player;
@@ -81,9 +84,10 @@ typedef struct s_vars
 	int					pix_color;
 	int					tex_bpp[4];
 	int					tex_sl[4];
-	int    				tex_end[4];
-	int			tex_width;
-	int			tex_height;
+	int					tex_end[4];
+	int					tex_width;
+	int					tex_height;
+	int					tex_x;
 }	t_vars;
 
 void	init_player(t_player *player);
@@ -98,17 +102,15 @@ void	draw_square_aux(int size, int color, t_vars *vars);
 void	draw_loop_one(t_vars *vars);
 void	put_pixel(int x, int y, int color, t_vars *vars);
 void	draw_background(t_vars *vars, int sky_color, int floor_color);
-int	close_exit(void *noth);
+void	load_textures(t_vars *vars);
+void	render_texture_column(t_vars *vars, int texture_index,
+			int column, int start_y);
+int		close_exit(void *noth);
 int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_player *player);
-int	close_esc(t_vars *vars);
+int		close_esc(t_vars *vars);
 int		draw_loop(t_vars *vars);
 bool	touch(float px, float py, t_vars *vars);
 float	fixed_dist(float y1, float y2, t_vars *vars);
-
-
-
-void	load_textures(t_vars *vars);
-void	render_texture_column(t_vars *vars, int texture_index, int column, int start_y, int end, int tex_x);
 
 #endif

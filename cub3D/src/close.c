@@ -20,9 +20,9 @@ int	close_esc(t_vars *vars)
 
 int	close_exit(void *noth)
 {
+	int		i;
 	t_vars	*vars;
-	int	i;
-	
+
 	i = 0;
 	vars = (t_vars *)noth;
 	free(vars->map);
