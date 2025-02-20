@@ -16,7 +16,7 @@
 # define WIDTH 1280
 # define HEIGTH 720
 # define BLOCK 64
-# define DEBUG 0
+# define DEBUG 1
 
 # define W 119
 # define A 97
@@ -90,7 +90,7 @@ typedef struct s_vars
 	int					tex_x;
 }	t_vars;
 
-void	init_player(t_player *player);
+void	init_player(t_player *player, t_vars *vars);
 void	move_player(t_player *player, t_vars *vars);
 void	init_vars(t_vars *vars);
 void	destroy_image(t_vars *vars);
