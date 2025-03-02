@@ -16,7 +16,7 @@
 # define WIDTH 1280
 # define HEIGTH 720
 # define BLOCK 64
-# define DEBUG 1
+# define DEBUG 0
 
 # define W 119
 # define A 97
@@ -24,7 +24,7 @@
 # define D 100
 # define LEFT 65361
 # define RIGHT 65363
-# define SPEED 3
+# define MIN_DIST 10
 
 # define PI 3.14159265359
 
@@ -88,6 +88,8 @@ typedef struct s_vars
 	int					tex_width;
 	int					tex_height;
 	int					tex_x;
+	int					block;
+	int					speed;
 }	t_vars;
 
 void	init_player(t_player *player, t_vars *vars);

@@ -36,6 +36,7 @@ void	load_textures(t_vars *vars)
 				&vars->tex_bpp[i], &vars->tex_sl[i], &vars->tex_end[i]);
 		i++;
 	}
+	vars->block = vars->tex_height;
 }
 
 void	render_texture_column(t_vars *vars, int texture_index, \

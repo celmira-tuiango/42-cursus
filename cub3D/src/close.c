@@ -18,6 +18,21 @@ int	close_esc(t_vars *vars)
 	return (0);
 }
 
+static void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	if (!map)
+		return ;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
 int	close_exit(void *noth)
 {
 	int		i;
@@ -25,7 +40,8 @@ int	close_exit(void *noth)
 
 	i = 0;
 	vars = (t_vars *)noth;
-	free(vars->map);
+	free_map(vars->map);
+	//free(vars->map);
 	mlx_destroy_image(vars->mlx, vars->img);
 	while (i < 4)
 		mlx_destroy_image(vars->mlx, vars->textures[i++]);

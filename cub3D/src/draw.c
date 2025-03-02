@@ -44,7 +44,7 @@ static void	aux_draw_line_two(t_vars *vars, t_player *player)
 	vars->x1 = player->x;
 	vars->x2 = player->ray_x;
 	vars->dist = fixed_dist(player->y, player->ray_y, vars);
-	vars->height = (BLOCK / vars->dist) * (WIDTH / 2);
+	vars->height = (vars->block / vars->dist) * (WIDTH / 2);
 	vars->start_y = (HEIGTH - vars->height) / 2;
 	vars->end = vars->start_y + vars->height;
 	if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))

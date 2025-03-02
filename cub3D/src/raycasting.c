@@ -36,8 +36,8 @@ bool	touch(float px, float py, t_vars *vars)
 	int	x;
 	int	y;
 
-	x = px / BLOCK;
-	y = py / BLOCK;
+	x = px / vars->block;
+	y = py / vars->block;
 	if (vars->map[y][x] == '1')
 		return (true);
 	return (false);
