@@ -12,25 +12,36 @@
 
 #include "../header/header.h"
 
+static void	aux_load_textures(t_vars *vars)
+{
+	vars->textures[0] = mlx_xpm_file_to_image(vars->mlx, vars->north_texture,
+			&vars->tex_width, &vars->tex_height);
+	vars->textures[1] = mlx_xpm_file_to_image(vars->mlx, vars->south_texture,
+			&vars->tex_width, &vars->tex_height);
+	vars->textures[2] = mlx_xpm_file_to_image(vars->mlx, vars->west_texture,
+			&vars->tex_width, &vars->tex_height);
+	vars->textures[3] = mlx_xpm_file_to_image(vars->mlx, vars->east_texture,
+			&vars->tex_width, &vars->tex_height);
+}
+
 void	load_textures(t_vars *vars)
 {
 	int	i;
 
 	i = 0;
-	vars->textures[0] = mlx_xpm_file_to_image(vars->mlx, "walls/one.xpm",
-			&vars->tex_width, &vars->tex_height);
-	vars->textures[1] = mlx_xpm_file_to_image(vars->mlx, "walls/two.xpm",
-			&vars->tex_width, &vars->tex_height);
-	vars->textures[2] = mlx_xpm_file_to_image(vars->mlx, "walls/three.xpm",
-			&vars->tex_width, &vars->tex_height);
-	vars->textures[3] = mlx_xpm_file_to_image(vars->mlx, "walls/four.xpm",
-			&vars->tex_width, &vars->tex_height);
+	if (!vars->north_texture || !vars->south_texture
+		|| !vars->west_texture || !vars->east_texture)
+	{
+		printf("error: ao carregar textura \n");
+		close_exit(vars);
+	}
+	aux_load_textures(vars);
 	while (i < 4)
 	{
 		if (!vars->textures[i])
 		{
 			printf("error: ao carregar textura %d\n", i);
-			exit(1);
+			close_exit(vars);
 		}
 		vars->tex_data[i] = mlx_get_data_addr(vars->textures[i],
 				&vars->tex_bpp[i], &vars->tex_sl[i], &vars->tex_end[i]);

@@ -65,13 +65,14 @@ void	draw_background(t_vars *vars, int sky_color, int floor_color)
 	int	x;
 
 	y = 0;
+	sky_color = vars->ceiling_hex;
+	floor_color = vars->floor_hex;
 	while (y < HEIGTH / 2)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			put_pixel(x, y, sky_color, vars);
-			x++;
+			put_pixel(x++, y, sky_color, vars);
 		}
 		y++;
 	}
@@ -80,8 +81,7 @@ void	draw_background(t_vars *vars, int sky_color, int floor_color)
 		x = 0;
 		while (x < WIDTH)
 		{
-			put_pixel(x, y, floor_color, vars);
-			x++;
+			put_pixel(x++, y, floor_color, vars);
 		}
 		y++;
 	}

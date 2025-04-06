@@ -19,9 +19,9 @@ void	put_pixel(int x, int y, int color, t_vars *vars)
 	if (x >= WIDTH || y >= HEIGTH || x < 0 || y < 0)
 		return ;
 	index = y * vars->size_line + x * vars->bpp / 8;
-	vars->data[index] = color & 0xFF;
-	vars->data[index + 1] = (color >> 8) & 0xFF;
 	vars->data[index + 2] = (color >> 16) & 0xFF;
+	vars->data[index + 1] = (color >> 8) & 0xFF;
+	vars->data[index] = color & 0xFF;
 }
 
 static void	aux_draw_line_one(t_vars *vars, t_player *player, float start_x)
@@ -44,9 +44,9 @@ static void	aux_draw_line_two(t_vars *vars, t_player *player)
 	vars->x1 = player->x;
 	vars->x2 = player->ray_x;
 	vars->dist = fixed_dist(player->y, player->ray_y, vars);
-	vars->height = (vars->block / vars->dist) * (WIDTH / 2);
-	vars->start_y = (HEIGTH - vars->height) / 2;
-	vars->end = vars->start_y + vars->height;
+	vars->heightt = (vars->block / vars->dist) * (WIDTH / 2);
+	vars->start_y = (HEIGTH - vars->heightt) / 2;
+	vars->end = vars->start_y + vars->heightt;
 	if (touch(player->ray_x - player->cos_angle, player->ray_y, vars))
 		vars->tex_x = (int)player->ray_x % vars->tex_width;
 	else

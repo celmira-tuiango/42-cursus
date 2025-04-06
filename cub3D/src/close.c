@@ -40,13 +40,23 @@ int	close_exit(void *noth)
 
 	i = 0;
 	vars = (t_vars *)noth;
+	free_all(vars);
 	free_map(vars->map);
-	//free(vars->map);
-	mlx_destroy_image(vars->mlx, vars->img);
 	while (i < 4)
-		mlx_destroy_image(vars->mlx, vars->textures[i++]);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
+	{
+		if (vars->textures[i])
+			mlx_destroy_image(vars->mlx, vars->textures[i]);
+		i++;
+	}
+	if (i == 4)
+	{
+		if (vars->img)
+			mlx_destroy_image(vars->mlx, vars->img);
+	}
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx)
+		mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	exit(0);
 }
